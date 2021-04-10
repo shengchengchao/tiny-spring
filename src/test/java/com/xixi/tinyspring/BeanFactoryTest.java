@@ -12,11 +12,16 @@ import org.junit.Test;
 public class BeanFactoryTest {
 
     @Test
-    public void testBean(){
+    public void testBean() throws Exception {
 
         BeanFactory beanFactory = new AutoWireCapableBeanFactory();
         BeanDefinition beanDefinition = new BeanDefinition();
         beanDefinition.setBeanClass("com.xixi.tinyspring.HelloWorld");
+
+        PropertyValues propertyValues = new PropertyValues();
+        propertyValues.addPropertyValue(new PropertyValue("name","helloWorld"));
+        beanDefinition.setPropertyValues(propertyValues);
+
         beanFactory.registerBean("helloWorld",beanDefinition);
 
         HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");

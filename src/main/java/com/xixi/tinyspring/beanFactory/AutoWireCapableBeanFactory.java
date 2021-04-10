@@ -1,6 +1,11 @@
 package com.xixi.tinyspring.beanFactory;
 
 import com.xixi.tinyspring.BeanDefinition;
+import com.xixi.tinyspring.PropertyValue;
+import com.xixi.tinyspring.PropertyValues;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * @author shengchengchao
@@ -14,18 +19,39 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
      * @param beanDefinition
      */
     @Override
-    protected Object doCreateBean(BeanDefinition beanDefinition) {
+    protected Object doCreateBean(BeanDefinition beanDefinition) throws Exception {
         String beanClassName = beanDefinition.getBeanClassName();
         beanDefinition.setBeanClass(beanClassName);
         Object bean = null;
-        try {
-            bean = beanDefinition.getBeanClass().newInstance();
-            beanDefinition.setBean(bean);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        Object beanInstance = createBeanInstance(beanDefinition);
+        beanDefinition.setBean(beanInstance);
+        addPropertyValue(beanDefinition,beanInstance);
         return bean;
+    }
+
+    /**
+     * 添加参数值
+     * @param beanDefinition
+     * @param bean
+     */
+    private void addPropertyValue(BeanDefinition beanDefinition, Object bean) throws Exception {
+        List<PropertyValue> propertyValueList = beanDefinition.getPropertyValues().getPropertyValueList();
+        Class beanClass = beanDefinition.getBeanClass();
+        for (PropertyValue propertyValue : propertyValueList) {
+            Field declaredField = beanClass.getDeclaredField(propertyValue.getName());
+            declaredField.setAccessible(true);
+            declaredField.set(bean,propertyValue.getValue());
+        }
+    }
+
+    /**
+     * 创建实例
+     * @param beanDefinition
+     * @return
+     * @throws Exception
+     */
+    protected Object createBeanInstance(BeanDefinition beanDefinition) throws Exception {
+        return beanDefinition.getBeanClass().newInstance();
+
     }
 }

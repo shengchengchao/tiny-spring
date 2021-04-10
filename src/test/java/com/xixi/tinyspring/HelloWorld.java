@@ -7,7 +7,9 @@ package com.xixi.tinyspring;
  */
 public class HelloWorld {
 
+    private String name;
+
     public void testHello(){
-        System.out.println("hello World");
+        System.out.println(name);
     }
 }
