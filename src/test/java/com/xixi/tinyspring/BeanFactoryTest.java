@@ -1,5 +1,7 @@
 package com.xixi.tinyspring;
 
+import com.xixi.tinyspring.beanFactory.AutoWireCapableBeanFactory;
+import com.xixi.tinyspring.beanFactory.BeanFactory;
 import org.junit.Test;
 
 /**
@@ -12,8 +14,9 @@ public class BeanFactoryTest {
     @Test
     public void testBean(){
 
-        BeanFactory beanFactory = new BeanFactory();
-        BeanDefinition beanDefinition = new BeanDefinition(new HelloWorld());
+        BeanFactory beanFactory = new AutoWireCapableBeanFactory();
+        BeanDefinition beanDefinition = new BeanDefinition();
+        beanDefinition.setBeanClass("com.xixi.tinyspring.HelloWorld");
         beanFactory.registerBean("helloWorld",beanDefinition);
 
         HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");
