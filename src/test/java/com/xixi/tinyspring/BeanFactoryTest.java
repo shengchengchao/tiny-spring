@@ -1,5 +1,6 @@
 package com.xixi.tinyspring;
 
+import com.xixi.tinyspring.beanFactory.AbstractFactory;
 import com.xixi.tinyspring.beanFactory.AutoWireCapableBeanFactory;
 import com.xixi.tinyspring.beanFactory.BeanFactory;
 import com.xixi.tinyspring.io.ResourceLoader;
@@ -25,6 +26,22 @@ public class BeanFactoryTest {
             beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
         }
 
+        HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");
+        helloWorld.testHello();
+
+    }
+
+
+    @Test
+    public void testPreBean() throws Exception {
+        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
+        xmlBeanDefinitionReader.loadBeanDefinition("ioc.xml");
+        AbstractFactory beanFactory = new AutoWireCapableBeanFactory();
+
+        for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getRegistry().entrySet()){
+            beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
+        }
+        beanFactory.preInstanceBean();
         HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");
         helloWorld.testHello();
 

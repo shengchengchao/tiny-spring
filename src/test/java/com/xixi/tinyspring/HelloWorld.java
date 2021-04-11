@@ -9,7 +9,21 @@ public class HelloWorld {
 
     private String name;
 
+    private OutputService outputService;
+
     public void testHello(){
-        System.out.println(name);
+        outputService.output(name);
+    }
+
+    public OutputService getOutputService() {
+        return outputService;
+    }
+
+    public void setOutputService(OutputService outputService) {
+        this.outputService = outputService;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

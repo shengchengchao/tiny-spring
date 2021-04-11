@@ -1,6 +1,7 @@
 package com.xixi.tinyspring;
 
 import lombok.Data;
+import org.springframework.expression.spel.ast.BeanReference;
 
 import java.util.ArrayList;
 

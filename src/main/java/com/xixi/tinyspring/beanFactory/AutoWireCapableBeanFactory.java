@@ -1,6 +1,7 @@
 package com.xixi.tinyspring.beanFactory;
 
 import com.xixi.tinyspring.BeanDefinition;
+import com.xixi.tinyspring.BeanReference;
 import com.xixi.tinyspring.PropertyValue;
 import com.xixi.tinyspring.PropertyValues;
 
@@ -26,7 +27,7 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
         Object beanInstance = createBeanInstance(beanDefinition);
         beanDefinition.setBean(beanInstance);
         addPropertyValue(beanDefinition,beanInstance);
-        return bean;
+        return beanInstance;
     }
 
     /**
@@ -40,7 +41,12 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
         for (PropertyValue propertyValue : propertyValueList) {
             Field declaredField = beanClass.getDeclaredField(propertyValue.getName());
             declaredField.setAccessible(true);
-            declaredField.set(bean,propertyValue.getValue());
+            Object value = propertyValue.getValue();
+            if(value instanceof BeanReference){
+                BeanReference beanReference = (BeanReference) value;
+                value = getBean(beanReference.getName());
+            }
+            declaredField.set(bean,value);
         }
     }
 
