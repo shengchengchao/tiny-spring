@@ -1,14 +1,16 @@
-package com.xixi.tinyspring.bean;
+package com.xixi.tinyspring.beans;
 
 import com.xixi.tinyspring.aop.AdvisedSupport;
+import com.xixi.tinyspring.aop.AspectJExpressionPointcut;
 import com.xixi.tinyspring.aop.JdkDynamicAopProxy;
 import com.xixi.tinyspring.aop.TargetSource;
+import com.xixi.tinyspring.bean.BeanDefinition;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 import com.xixi.tinyspring.bean.factory.AutoWireCapableBeanFactory;
-import com.xixi.tinyspring.bean.factory.BeanFactory;
 import com.xixi.tinyspring.bean.io.ResourceLoader;
 import com.xixi.tinyspring.bean.xml.XmlBeanDefinitionReader;
 import com.xixi.tinyspring.context.ClassPathXmlApplicationContext;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
@@ -60,5 +62,22 @@ public class BeanFactoryTest {
         JdkDynamicAopProxy jdkDynamicAopProxy = new JdkDynamicAopProxy(advisedSupport);
         HelloWorld proxy = (HelloWorld)jdkDynamicAopProxy.getProxy();
         proxy.testHello();
+    }
+    @Test
+    public void TestClassFilter(){
+        String expression = "execution(* cn.javass..IPointcutService+.*())";
+        AspectJExpressionPointcut aspectJExpressionPointcut = new AspectJExpressionPointcut();
+        aspectJExpressionPointcut.setExpression(expression);
+        boolean matches = aspectJExpressionPointcut.getClassFilter().matches(HelloWorldImpl.class);
+        Assert.assertTrue(matches);
+    }
+
+    @Test
+    public void TestMethodMathch() throws NoSuchMethodException {
+        String expression = "execution(* com.xixi.tinyspring..*.*(..))";
+        AspectJExpressionPointcut aspectJExpressionPointcut = new AspectJExpressionPointcut();
+        aspectJExpressionPointcut.setExpression(expression);
+        boolean matches = aspectJExpressionPointcut.getMethodMatcher().matches(HelloWorldImpl.class.getDeclaredMethod("testHello"),HelloWorldImpl.class);
+        Assert.assertTrue(matches);
     }
 }

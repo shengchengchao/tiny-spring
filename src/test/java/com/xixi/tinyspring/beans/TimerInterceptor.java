@@ -1,4 +1,4 @@
-package com.xixi.tinyspring.bean;
+package com.xixi.tinyspring.beans;
 
 
 

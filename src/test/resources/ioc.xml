@@ -9,12 +9,12 @@
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
 
-    <bean name="outputService" class="com.xixi.tinyspring.bean.OutputService">
+    <bean name="outputService" class="com.xixi.tinyspring.beans.OutputService">
         <property name="helloWorld" ref="helloWorld"></property>
 
     </bean>
 
-    <bean name="helloWorld" class="com.xixi.tinyspring.bean.HelloWorldImpl">
+    <bean name="helloWorld" class="com.xixi.tinyspring.beans.HelloWorldImpl">
         <property name="name" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
