@@ -14,7 +14,7 @@
 
     </bean>
 
-    <bean name="helloWorld" class="com.xixi.tinyspring.bean.HelloWorld">
+    <bean name="helloWorld" class="com.xixi.tinyspring.bean.HelloWorldImpl">
         <property name="name" value="Hello World!"></property>
         <property name="outputService" ref="outputService"></property>
     </bean>
