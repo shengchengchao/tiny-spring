@@ -1,10 +1,10 @@
-package com.xixi.tinyspring.xml;
+package com.xixi.tinyspring.bean.xml;
 
-import com.xixi.tinyspring.AbstractBeanDefinitionReader;
-import com.xixi.tinyspring.BeanDefinition;
-import com.xixi.tinyspring.BeanReference;
-import com.xixi.tinyspring.PropertyValue;
-import com.xixi.tinyspring.io.ResourceLoader;
+import com.xixi.tinyspring.bean.AbstractBeanDefinitionReader;
+import com.xixi.tinyspring.bean.BeanDefinition;
+import com.xixi.tinyspring.bean.BeanReference;
+import com.xixi.tinyspring.bean.PropertyValue;
+import com.xixi.tinyspring.bean.io.ResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

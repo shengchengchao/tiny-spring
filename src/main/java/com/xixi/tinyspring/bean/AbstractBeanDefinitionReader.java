@@ -1,6 +1,6 @@
-package com.xixi.tinyspring;
+package com.xixi.tinyspring.bean;
 
-import com.xixi.tinyspring.io.ResourceLoader;
+import com.xixi.tinyspring.bean.io.ResourceLoader;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

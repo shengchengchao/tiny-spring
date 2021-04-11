@@ -1,10 +1,11 @@
-package com.xixi.tinyspring;
+package com.xixi.tinyspring.bean;
 
-import com.xixi.tinyspring.beanFactory.AbstractFactory;
-import com.xixi.tinyspring.beanFactory.AutoWireCapableBeanFactory;
-import com.xixi.tinyspring.beanFactory.BeanFactory;
-import com.xixi.tinyspring.io.ResourceLoader;
-import com.xixi.tinyspring.xml.XmlBeanDefinitionReader;
+import com.xixi.tinyspring.bean.factory.AbstractFactory;
+import com.xixi.tinyspring.bean.factory.AutoWireCapableBeanFactory;
+import com.xixi.tinyspring.bean.factory.BeanFactory;
+import com.xixi.tinyspring.bean.io.ResourceLoader;
+import com.xixi.tinyspring.bean.xml.XmlBeanDefinitionReader;
+import com.xixi.tinyspring.context.ClassPathXmlApplicationContext;
 import org.junit.Test;
 
 import java.util.Map;
@@ -18,15 +19,10 @@ public class BeanFactoryTest {
 
     @Test
     public void testBean() throws Exception {
-        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
-        xmlBeanDefinitionReader.loadBeanDefinition("ioc.xml");
-        BeanFactory beanFactory = new AutoWireCapableBeanFactory();
 
-        for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getRegistry().entrySet()){
-            beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
-        }
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("ioc.xml");
 
-        HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");
+        HelloWorld helloWorld = (HelloWorld) classPathXmlApplicationContext.getBean("helloWorld");
         helloWorld.testHello();
 
     }

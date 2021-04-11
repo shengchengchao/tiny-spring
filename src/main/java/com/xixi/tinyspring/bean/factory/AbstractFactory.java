@@ -1,6 +1,6 @@
-package com.xixi.tinyspring.beanFactory;
+package com.xixi.tinyspring.bean.factory;
 
-import com.xixi.tinyspring.BeanDefinition;
+import com.xixi.tinyspring.bean.BeanDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,6 @@ public abstract class AbstractFactory implements BeanFactory {
     }
 
 
-    @Override
     public void registerBean(String name, BeanDefinition beanDefinition) throws Exception {
         beanDefinitionMap.put(name,beanDefinition);
         beanNameList.add(name);

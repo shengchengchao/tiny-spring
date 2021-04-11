@@ -1,4 +1,4 @@
-package com.xixi.tinyspring;
+package com.xixi.tinyspring.bean;
 
 import org.junit.Assert;
 

@@ -1,4 +1,4 @@
-package com.xixi.tinyspring.io;
+package com.xixi.tinyspring.bean.io;
 
 import java.io.InputStream;
 import java.net.URL;
