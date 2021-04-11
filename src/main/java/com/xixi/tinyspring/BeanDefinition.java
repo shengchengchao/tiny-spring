@@ -2,6 +2,8 @@ package com.xixi.tinyspring;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+
 /**
  * @author shengchengchao
  * @Description
@@ -15,7 +17,7 @@ public class BeanDefinition {
 
     private Class beanClass;
 
-    private PropertyValues propertyValues;
+    private PropertyValues propertyValues = new PropertyValues();
 
 
     public void setBeanClass(String beanClassName) {

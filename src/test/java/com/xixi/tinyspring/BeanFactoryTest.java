@@ -2,7 +2,11 @@ package com.xixi.tinyspring;
 
 import com.xixi.tinyspring.beanFactory.AutoWireCapableBeanFactory;
 import com.xixi.tinyspring.beanFactory.BeanFactory;
+import com.xixi.tinyspring.io.ResourceLoader;
+import com.xixi.tinyspring.xml.XmlBeanDefinitionReader;
 import org.junit.Test;
+
+import java.util.Map;
 
 /**
  * @author shengchengchao
@@ -13,16 +17,13 @@ public class BeanFactoryTest {
 
     @Test
     public void testBean() throws Exception {
-
+        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
+        xmlBeanDefinitionReader.loadBeanDefinition("ioc.xml");
         BeanFactory beanFactory = new AutoWireCapableBeanFactory();
-        BeanDefinition beanDefinition = new BeanDefinition();
-        beanDefinition.setBeanClass("com.xixi.tinyspring.HelloWorld");
 
-        PropertyValues propertyValues = new PropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("name","helloWorld"));
-        beanDefinition.setPropertyValues(propertyValues);
-
-        beanFactory.registerBean("helloWorld",beanDefinition);
+        for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getRegistry().entrySet()){
+            beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
+        }
 
         HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");
         helloWorld.testHello();
