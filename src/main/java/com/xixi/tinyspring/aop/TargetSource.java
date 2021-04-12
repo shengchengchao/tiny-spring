@@ -7,20 +7,29 @@ package com.xixi.tinyspring.aop;
  */
 public class TargetSource {
 
-    private Class<?>[] targetClass;
+    private Class<?> targetClass;
 
     private Object target;
 
-    public TargetSource(Object target, Class<?>... targetClass) {
+    private Class<?>[] interfaces;
+
+    public TargetSource(Object target,  Class<?> targetClass,Class<?>... interfaces) {
         this.targetClass = targetClass;
         this.target = target;
+        this.interfaces = interfaces;
     }
 
-    public Class<?>[] getTargetClass() {
-        return targetClass;
-    }
+
 
     public Object getTarget() {
         return target;
+    }
+
+    public Class<?> getTargetClass() {
+        return targetClass;
+    }
+
+    public Class<?>[] getInterfaces() {
+        return interfaces;
     }
 }

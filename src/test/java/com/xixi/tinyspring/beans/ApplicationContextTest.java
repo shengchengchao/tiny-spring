@@ -15,9 +15,10 @@ public class ApplicationContextTest {
     @Test
     public void test() throws Exception {
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc.xml");
-        HelloWorld helloWorldService = (HelloWorld) applicationContext.getBean("helloWorld");
+        HelloWorldImpl helloWorldService = (HelloWorldImpl) applicationContext.getBean("helloWorld");
         helloWorldService.testHello();
     }
+
 
 
 }

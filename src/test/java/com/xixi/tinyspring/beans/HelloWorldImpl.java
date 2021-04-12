@@ -5,7 +5,7 @@ package com.xixi.tinyspring.beans;
  * @Description
  * @createTime 2021/4/11
  */
-public class HelloWorldImpl implements HelloWorld {
+public class HelloWorldImpl {
 
     private String name;
 
@@ -25,7 +25,6 @@ public class HelloWorldImpl implements HelloWorld {
         this.name = name;
     }
 
-    @Override
     public void testHello() {
         outputService.output(name);
     }
