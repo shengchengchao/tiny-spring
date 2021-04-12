@@ -1,5 +1,7 @@
 package com.xixi.tinyspring.aop;
 
+import org.aopalliance.aop.Advice;
+
 /**
  * @author shengchengchao
  * @Description
@@ -9,14 +11,14 @@ public class AspectJExpressionPointcutAdvisor  implements  PointcutAdvisor{
 
     private AspectJExpressionPointcut aspectJExpressionPointcut = new AspectJExpressionPointcut();
 
-    private Advisor advisor;
+    private Advice advice;
 
     public void setAspectJExpressionPointcut(AspectJExpressionPointcut aspectJExpressionPointcut) {
         this.aspectJExpressionPointcut = aspectJExpressionPointcut;
     }
 
-    public void setAdvisor(Advisor advisor) {
-        this.advisor = advisor;
+    public void setAdvisor(Advice advisor) {
+        this.advice = advisor;
     }
 
     @Override
@@ -25,7 +27,12 @@ public class AspectJExpressionPointcutAdvisor  implements  PointcutAdvisor{
     }
 
     @Override
-    public Advisor getAdvisor() {
-        return advisor;
+    public Advice getAdvice() {
+        return advice;
     }
+
+    public void setExpression(String expression) {
+        this.aspectJExpressionPointcut.setExpression(expression);
+    }
+
 }

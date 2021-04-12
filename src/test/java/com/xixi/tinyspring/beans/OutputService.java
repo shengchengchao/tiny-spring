@@ -7,19 +7,7 @@ import org.junit.Assert;
  * @Description
  * @createTime 2021/4/11
  */
-public class OutputService {
+public interface OutputService {
 
-    private HelloWorld helloWorld;
-
-
-
-    public void output(String text){
-        Assert.assertNotNull(helloWorld);
-        System.out.println(text);
-    }
-
-
-    public void setHelloWorld(HelloWorld helloWorld) {
-        this.helloWorld = helloWorld;
-    }
+    void output(String text);
 }

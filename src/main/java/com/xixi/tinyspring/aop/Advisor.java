@@ -1,5 +1,7 @@
 package com.xixi.tinyspring.aop;
 
+import org.aopalliance.aop.Advice;
+
 /**
  * @author shengchengchao
  * @Description
@@ -7,5 +9,5 @@ package com.xixi.tinyspring.aop;
  */
 public interface Advisor {
 
-    Advisor getAdvisor();
+    Advice getAdvice();
 }

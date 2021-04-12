@@ -55,7 +55,7 @@ public class BeanFactoryTest {
         helloWorld.testHello();
         //设置代理对象与拦截类
         AdvisedSupport advisedSupport = new AdvisedSupport();
-        advisedSupport.setTargetSource(new TargetSource(HelloWorld.class,helloWorld));
+//        advisedSupport.setTargetSource(new TargetSource(HelloWorld.class,helloWorld));
         advisedSupport.setMethodInterceptor(new TimerInterceptor());
 
         // 获得代理 注意 只能对于接口实现的方法进行代理

@@ -32,12 +32,12 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
 
 
     @Override
-    public void refresh() throws Exception {
+    public void loadBeanDefinitions(AbstractFactory beanFactory) throws Exception {
 
         XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
         xmlBeanDefinitionReader.loadBeanDefinition(location);
         for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getRegistry().entrySet()){
-            abstractBeanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
+            beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
         }
     }
 }

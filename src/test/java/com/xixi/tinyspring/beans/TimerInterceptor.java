@@ -4,7 +4,6 @@ package com.xixi.tinyspring.beans;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
