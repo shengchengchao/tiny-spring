@@ -57,4 +57,21 @@ public abstract class AbstractApplicationContext implements ApplicationContext  
 
 
     protected abstract void loadBeanDefinitions(AbstractFactory beanFactory) throws Exception ;
+
+    @Override
+    public void registerShutdownHook() {
+        Thread shutdownHook = new Thread() {
+            @Override
+            public void run() {
+                close();
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
+
+    }
+
+    @Override
+    public void close()  {
+        abstractBeanFactory.destroySingletons();
+    }
 }

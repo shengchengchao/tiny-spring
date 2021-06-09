@@ -1,12 +1,12 @@
 package com.xixi.tinyspring.bean.factory;
 
 import com.xixi.tinyspring.bean.BeanDefinition;
+import com.xixi.tinyspring.bean.DisposableBean;
+import com.xixi.tinyspring.bean.DisposableBeanAdapter;
 import com.xixi.tinyspring.bean.PostProcess.BeanFactoryPostProcessor;
 import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -22,6 +22,8 @@ public abstract class AbstractFactory implements BeanFactory {
     private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
 
     private List<BeanFactoryPostProcessor> beanPostFactoryProcessors = new ArrayList<BeanFactoryPostProcessor>();
+
+    private Map<String, DisposableBeanAdapter> destroyBeanMap = new HashMap<>();
     @Override
     public Object getBean(String name) throws Exception {
         //这里可以做成懒加载来完成 就是在考虑没有这个beanDefinition 再去创建beanDefinition
@@ -35,11 +37,21 @@ public abstract class AbstractFactory implements BeanFactory {
             bean = doCreateBean(beanDefinition);
             bean = initializeBean(name, bean);
             beanDefinition.setBean(bean);
-
         }
+        registerDestroyBean(bean,beanDefinition);
         return bean;
     }
 
+    /**
+     * 注册一个bean
+     * @param bean
+     * @param beanDefinition
+     */
+    protected  void registerDestroyBean(Object bean,BeanDefinition beanDefinition){
+       if (bean instanceof DisposableBean || beanDefinition.getDestroyMethod()!=null){
+           destroyBeanMap.put(beanDefinition.getBeanClassName(),new DisposableBeanAdapter(bean,beanDefinition.getDestroyMethod(),beanDefinition.getBeanClassName()));
+       }
+    }
 
 
     protected Object initializeBean(String beanName,Object bean) throws Exception{
@@ -95,5 +107,14 @@ public abstract class AbstractFactory implements BeanFactory {
 
     public  void addBeanFactoryPostProcessor(BeanFactoryPostProcessor beanFactoryPostProcessor){
         this.beanPostFactoryProcessors.add(beanFactoryPostProcessor);
+    }
+
+
+    public  void destroySingletons()  {
+        Set<String> keys = destroyBeanMap.keySet();
+        for (String key : keys) {
+            DisposableBeanAdapter disposableBeanAdapter = destroyBeanMap.get(key);
+            disposableBeanAdapter.destroy();
+        }
     }
 }
