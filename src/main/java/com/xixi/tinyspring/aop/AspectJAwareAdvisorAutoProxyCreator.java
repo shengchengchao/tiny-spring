@@ -1,6 +1,6 @@
 package com.xixi.tinyspring.aop;
 
-import com.xixi.tinyspring.bean.BeanPostProcessor;
+import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 import com.xixi.tinyspring.bean.factory.BeanFactory;
 import org.aopalliance.intercept.MethodInterceptor;

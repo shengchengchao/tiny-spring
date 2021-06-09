@@ -1,8 +1,8 @@
 package com.xixi.tinyspring.bean.factory;
 
-import com.xixi.tinyspring.aop.AspectJExpressionPointcutAdvisor;
 import com.xixi.tinyspring.bean.BeanDefinition;
-import com.xixi.tinyspring.bean.BeanPostProcessor;
+import com.xixi.tinyspring.bean.PostProcess.BeanFactoryPostProcessor;
+import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,8 @@ public abstract class AbstractFactory implements BeanFactory {
 
     List<String> beanNameList = new ArrayList<String>();
     private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
+
+    private List<BeanFactoryPostProcessor> beanPostFactoryProcessors = new ArrayList<BeanFactoryPostProcessor>();
     @Override
     public Object getBean(String name) throws Exception {
         //这里可以做成懒加载来完成 就是在考虑没有这个beanDefinition 再去创建beanDefinition
@@ -37,6 +39,8 @@ public abstract class AbstractFactory implements BeanFactory {
         }
         return bean;
     }
+
+
 
     protected Object initializeBean(String beanName,Object bean) throws Exception{
         for (BeanPostProcessor beanPostProcessor : beanPostProcessors){
@@ -87,5 +91,9 @@ public abstract class AbstractFactory implements BeanFactory {
 
     public  void addBeanPostProcessor(BeanPostProcessor beanPostProcessor){
         this.beanPostProcessors.add(beanPostProcessor);
+    }
+
+    public  void addBeanFactoryPostProcessor(BeanFactoryPostProcessor beanFactoryPostProcessor){
+        this.beanPostFactoryProcessors.add(beanFactoryPostProcessor);
     }
 }

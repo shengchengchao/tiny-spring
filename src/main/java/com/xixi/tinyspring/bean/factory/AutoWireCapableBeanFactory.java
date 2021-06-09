@@ -2,12 +2,10 @@ package com.xixi.tinyspring.bean.factory;
 
 import com.xixi.tinyspring.aop.BeanFactoryAware;
 import com.xixi.tinyspring.bean.BeanDefinition;
-import com.xixi.tinyspring.bean.BeanPostProcessor;
 import com.xixi.tinyspring.bean.BeanReference;
 import com.xixi.tinyspring.bean.PropertyValue;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 

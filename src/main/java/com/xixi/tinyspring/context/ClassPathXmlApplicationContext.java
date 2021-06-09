@@ -3,6 +3,7 @@ package com.xixi.tinyspring.context;
 import com.xixi.tinyspring.bean.BeanDefinition;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 import com.xixi.tinyspring.bean.factory.AutoWireCapableBeanFactory;
+import com.xixi.tinyspring.bean.io.DefaultResourceLoader;
 import com.xixi.tinyspring.bean.io.ResourceLoader;
 import com.xixi.tinyspring.bean.xml.XmlBeanDefinitionReader;
 import org.springframework.beans.factory.support.AbstractBeanFactory;
@@ -34,7 +35,7 @@ public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
     @Override
     public void loadBeanDefinitions(AbstractFactory beanFactory) throws Exception {
 
-        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new ResourceLoader());
+        XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(new DefaultResourceLoader());
         xmlBeanDefinitionReader.loadBeanDefinition(location);
         for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getRegistry().entrySet()){
             beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
