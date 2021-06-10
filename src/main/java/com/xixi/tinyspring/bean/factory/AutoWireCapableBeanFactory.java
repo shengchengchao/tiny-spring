@@ -30,7 +30,10 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
         String beanClassName = beanDefinition.getBeanClassName();
         beanDefinition.setBeanClass(beanClassName);
         Object beanInstance = createBeanInstance(beanDefinition);
-        beanDefinition.setBean(beanInstance);
+        if(BeanDefinition.SINGLETON.equals(beanDefinition.getScope())){
+            beanDefinition.setBean(beanInstance);
+        }
+
 
         addPropertyValue(beanDefinition,beanInstance);
         // InitializingBean 使用

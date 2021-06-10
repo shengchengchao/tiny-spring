@@ -1,5 +1,6 @@
 package com.xixi.tinyspring.bean.xml;
 
+import cn.hutool.core.util.StrUtil;
 import com.xixi.tinyspring.bean.AbstractBeanDefinitionReader;
 import com.xixi.tinyspring.bean.BeanDefinition;
 import com.xixi.tinyspring.bean.BeanReference;
@@ -69,9 +70,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         String className = ele.getAttribute("class");
         String initMethod = ele.getAttribute("init-method");
         String destroyMethod = ele.getAttribute("destroy-method");
+        String scope = ele.getAttribute("scope");
         BeanDefinition beanDefinition = new BeanDefinition();
         processProperty(ele,beanDefinition);
         beanDefinition.setBeanClass(className);
+        beanDefinition.setScope(StrUtil.isNotBlank(scope)? scope: BeanDefinition.SINGLETON);
         beanDefinition.setInitMethodName(initMethod);
         beanDefinition.setDestroyMethod(destroyMethod);
         getRegistry().put(name, beanDefinition);

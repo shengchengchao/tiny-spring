@@ -49,7 +49,9 @@ public abstract class AbstractFactory implements BeanFactory {
      */
     protected  void registerDestroyBean(Object bean,BeanDefinition beanDefinition){
        if (bean instanceof DisposableBean || beanDefinition.getDestroyMethod()!=null){
-           destroyBeanMap.put(beanDefinition.getBeanClassName(),new DisposableBeanAdapter(bean,beanDefinition.getDestroyMethod(),beanDefinition.getBeanClassName()));
+           if(beanDefinition.getScope().equals(BeanDefinition.SINGLETON)){
+               destroyBeanMap.put(beanDefinition.getBeanClassName(),new DisposableBeanAdapter(bean,beanDefinition.getDestroyMethod(),beanDefinition.getBeanClassName()));
+           }
        }
     }
 
