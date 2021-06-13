@@ -9,6 +9,7 @@ import com.xixi.tinyspring.bean.factory.BeanFactory;
  */
 public interface BeanFactoryAware extends Aware {
 
+
     /**
      * 加入BeanFactory
      * @param beanFactory

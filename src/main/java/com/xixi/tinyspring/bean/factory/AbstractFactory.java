@@ -68,7 +68,7 @@ public abstract class AbstractFactory implements BeanFactory {
         return bean;
     }
 
-    public void registerBean(String name, BeanDefinition beanDefinition) throws Exception {
+    public void registerBean(String name, BeanDefinition beanDefinition)  {
         beanDefinitionMap.put(name,beanDefinition);
         beanNameList.add(name);
     }

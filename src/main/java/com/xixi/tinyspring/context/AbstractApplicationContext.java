@@ -1,8 +1,11 @@
 package com.xixi.tinyspring.context;
 
 
+import com.xixi.tinyspring.bean.BeanDefinition;
+import com.xixi.tinyspring.bean.PostProcess.ApplicationContextAwarePostProcess;
 import com.xixi.tinyspring.bean.PostProcess.BeanFactoryPostProcessor;
 import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
+import com.xixi.tinyspring.bean.event.*;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
 public abstract class AbstractApplicationContext implements ApplicationContext  {
 
     protected AbstractFactory abstractBeanFactory;
-
+    protected ApplicationEventMulticaster applicationEventMulticaster;
     public AbstractApplicationContext(AbstractFactory abstractBeanFactory) {
         this.abstractBeanFactory = abstractBeanFactory;
     }
@@ -25,7 +28,43 @@ public abstract class AbstractApplicationContext implements ApplicationContext  
 
         registerBeanFactoryPostProcessors(abstractBeanFactory);
         registerBeanPostProcessors(abstractBeanFactory);
+        abstractBeanFactory.addBeanPostProcessor(new ApplicationContextAwarePostProcess(this));
+        //事件发布者
+        registerApplicationEvent(abstractBeanFactory);
+         //事件监听器
+        registerApplicationEventListener(abstractBeanFactory);
         onRefresh();
+        finishRefresh();
+    }
+
+
+    /**
+     * 发布容器刷新完成事件
+     */
+    protected void finishRefresh() {
+        publishEvent(new ContextRefreshedEvent(this));
+    }
+
+
+    public void publishEvent(ApplicationEvent event) {
+        applicationEventMulticaster.multicastEvent(event);
+    }
+
+    protected  void registerApplicationEventListener(AbstractFactory abstractBeanFactory) throws Exception {
+        List<ApplicationEventListener> list = abstractBeanFactory.getBeanforType(ApplicationEventListener.class);
+        for(ApplicationEventListener applicationEventListener : list){
+            applicationEventMulticaster.addEvent(applicationEventListener);
+        }
+    }
+
+    protected  void registerApplicationEvent(AbstractFactory abstractBeanFactory){
+        AbstractApplicationEventMulticaster abstractApplicationEventMulticaster = new AbstractApplicationEventMulticaster();
+        BeanDefinition beanDefinition = new BeanDefinition();
+        this.applicationEventMulticaster = abstractApplicationEventMulticaster;
+        beanDefinition.setScope(BeanDefinition.SINGLETON);
+        beanDefinition.setBean(abstractApplicationEventMulticaster);
+        beanDefinition.setBeanClass(AbstractApplicationEventMulticaster.APPLICATION_EVENT_MULTICASTER_BEAN_NAME);
+        abstractBeanFactory.registerBean(AbstractApplicationEventMulticaster.APPLICATION_EVENT_MULTICASTER_BEAN_NAME,beanDefinition);
     }
 
     /**
@@ -44,8 +83,8 @@ public abstract class AbstractApplicationContext implements ApplicationContext  
     }
 
     protected  void registerBeanPostProcessors(AbstractFactory abstractBeanFactory) throws Exception {
-        List<BeanPostProcessor> beanforType = abstractBeanFactory.getBeanforType(BeanPostProcessor.class);
-        for (BeanPostProcessor beanPostProcessor : beanforType){
+        List<BeanPostProcessor> beanForType = abstractBeanFactory.getBeanforType(BeanPostProcessor.class);
+        for (BeanPostProcessor beanPostProcessor : beanForType){
             abstractBeanFactory.addBeanPostProcessor((BeanPostProcessor) beanPostProcessor);
         }
     }
