@@ -1,4 +1,4 @@
-package com.xixi.tinyspring.bean.PostProcess;
+package com.xixi.tinyspring.bean.postProcess;
 
 /**
  * @author shengchengchao

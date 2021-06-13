@@ -24,7 +24,7 @@
     <bean id="autoProxyCreator" class="com.xixi.tinyspring.aop.AspectJAwareAdvisorAutoProxyCreator"></bean>
 
 
-    <bean id="aspectjAspect" class="com.xixi.tinyspring.aop.AspectJExpressionPointcutAdvisor">
+    <bean id="aspectjAspect" class="com.xixi.tinyspring.aop.Advice.AspectJExpressionPointcutAdvisor">
         <property name="advice" ref="timeInterceptor"></property>
         <property name="expression" value="execution(* com.xixi.tinyspring..*.*(..))"></property>
     </bean>

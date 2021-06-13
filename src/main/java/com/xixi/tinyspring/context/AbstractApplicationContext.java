@@ -2,9 +2,9 @@ package com.xixi.tinyspring.context;
 
 
 import com.xixi.tinyspring.bean.BeanDefinition;
-import com.xixi.tinyspring.bean.PostProcess.ApplicationContextAwarePostProcess;
-import com.xixi.tinyspring.bean.PostProcess.BeanFactoryPostProcessor;
-import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
+import com.xixi.tinyspring.bean.postProcess.ApplicationContextAwarePostProcess;
+import com.xixi.tinyspring.bean.postProcess.BeanFactoryPostProcessor;
+import com.xixi.tinyspring.bean.postProcess.BeanPostProcessor;
 import com.xixi.tinyspring.bean.event.*;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 

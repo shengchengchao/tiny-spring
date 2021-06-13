@@ -1,4 +1,4 @@
-package com.xixi.tinyspring.bean.PostProcess;
+package com.xixi.tinyspring.bean.postProcess;
 
 import com.xixi.tinyspring.bean.aware.ApplicationContextAware;
 import com.xixi.tinyspring.context.ApplicationContext;
