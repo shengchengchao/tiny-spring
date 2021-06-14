@@ -1,4 +1,4 @@
-package com.xixi.tinyspring.aop;
+package com.xixi.tinyspring.aop.Advice;
 
 import org.aopalliance.aop.Advice;
 

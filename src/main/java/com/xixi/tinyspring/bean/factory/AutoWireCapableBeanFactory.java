@@ -3,10 +3,7 @@ package com.xixi.tinyspring.bean.factory;
 import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.xixi.tinyspring.aop.BeanFactoryAware;
-import com.xixi.tinyspring.bean.BeanDefinition;
-import com.xixi.tinyspring.bean.BeanReference;
-import com.xixi.tinyspring.bean.InitializingBean;
-import com.xixi.tinyspring.bean.PropertyValue;
+import com.xixi.tinyspring.bean.*;
 import org.springframework.beans.BeansException;
 import org.springframework.util.StringUtils;
 
@@ -30,8 +27,9 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
         String beanClassName = beanDefinition.getBeanClassName();
         beanDefinition.setBeanClass(beanClassName);
         Object beanInstance = createBeanInstance(beanDefinition);
-        beanDefinition.setBean(beanInstance);
-
+        if(BeanDefinition.SINGLETON.equals(beanDefinition.getScope())){
+            beanDefinition.setBean(beanInstance);
+        }
         addPropertyValue(beanDefinition,beanInstance);
         // InitializingBean 使用
         invokeInitMethod(beanDefinition,beanInstance,beanClassName);
@@ -99,7 +97,17 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
      * @throws Exception
      */
     protected Object createBeanInstance(BeanDefinition beanDefinition) throws Exception {
-        return beanDefinition.getBeanClass().newInstance();
+        Object bean = beanDefinition.getBeanClass().newInstance();
+        if(bean instanceof FactoryBean){
+            try {
+                Object result = ((FactoryBean) bean).getObject();
+                return result;
+            } catch (Exception e) {
+                throw new Exception("FactoryBean threw exception on object[" + beanDefinition.getBeanClassName() + "] creation", e);
+            }
+        }
+        return  bean;
+
 
     }
 }

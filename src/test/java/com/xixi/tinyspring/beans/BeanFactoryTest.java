@@ -1,14 +1,12 @@
 package com.xixi.tinyspring.beans;
 
-import com.xixi.tinyspring.aop.AdvisedSupport;
+import com.xixi.tinyspring.aop.Advice.AdvisedSupport;
 import com.xixi.tinyspring.aop.AspectJExpressionPointcut;
 import com.xixi.tinyspring.aop.JdkDynamicAopProxy;
-import com.xixi.tinyspring.aop.TargetSource;
 import com.xixi.tinyspring.bean.BeanDefinition;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 import com.xixi.tinyspring.bean.factory.AutoWireCapableBeanFactory;
 import com.xixi.tinyspring.bean.io.DefaultResourceLoader;
-import com.xixi.tinyspring.bean.io.ResourceLoader;
 import com.xixi.tinyspring.bean.xml.XmlBeanDefinitionReader;
 import com.xixi.tinyspring.context.ClassPathXmlApplicationContext;
 import org.junit.Assert;

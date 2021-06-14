@@ -3,8 +3,8 @@ package com.xixi.tinyspring.bean.factory;
 import com.xixi.tinyspring.bean.BeanDefinition;
 import com.xixi.tinyspring.bean.DisposableBean;
 import com.xixi.tinyspring.bean.DisposableBeanAdapter;
-import com.xixi.tinyspring.bean.PostProcess.BeanFactoryPostProcessor;
-import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
+import com.xixi.tinyspring.bean.postProcess.BeanFactoryPostProcessor;
+import com.xixi.tinyspring.bean.postProcess.BeanPostProcessor;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,7 +49,9 @@ public abstract class AbstractFactory implements BeanFactory {
      */
     protected  void registerDestroyBean(Object bean,BeanDefinition beanDefinition){
        if (bean instanceof DisposableBean || beanDefinition.getDestroyMethod()!=null){
-           destroyBeanMap.put(beanDefinition.getBeanClassName(),new DisposableBeanAdapter(bean,beanDefinition.getDestroyMethod(),beanDefinition.getBeanClassName()));
+           if(beanDefinition.getScope().equals(BeanDefinition.SINGLETON)){
+               destroyBeanMap.put(beanDefinition.getBeanClassName(),new DisposableBeanAdapter(bean,beanDefinition.getDestroyMethod(),beanDefinition.getBeanClassName()));
+           }
        }
     }
 
@@ -66,7 +68,7 @@ public abstract class AbstractFactory implements BeanFactory {
         return bean;
     }
 
-    public void registerBean(String name, BeanDefinition beanDefinition) throws Exception {
+    public void registerBean(String name, BeanDefinition beanDefinition)  {
         beanDefinitionMap.put(name,beanDefinition);
         beanNameList.add(name);
     }
@@ -116,5 +118,21 @@ public abstract class AbstractFactory implements BeanFactory {
             DisposableBeanAdapter disposableBeanAdapter = destroyBeanMap.get(key);
             disposableBeanAdapter.destroy();
         }
+    }
+
+    public Map<String, BeanDefinition> getBeanDefinitionMap() {
+        return beanDefinitionMap;
+    }
+
+    public void setBeanDefinitionMap(Map<String, BeanDefinition> beanDefinitionMap) {
+        this.beanDefinitionMap = beanDefinitionMap;
+    }
+
+    public List<String> getBeanNameList() {
+        return beanNameList;
+    }
+
+    public void setBeanNameList(List<String> beanNameList) {
+        this.beanNameList = beanNameList;
     }
 }

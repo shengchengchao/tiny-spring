@@ -19,6 +19,10 @@ public class BeanDefinition {
 
     private String destroyMethod;
 
+    private String scope;
+
+    public static final String SINGLETON = "singleton";
+    public static final String PROTOTYPE = "prototype";
     public void setBeanClass(String beanClassName) {
         this.beanClassName = beanClassName;
         try {
@@ -73,5 +77,13 @@ public class BeanDefinition {
 
     public void setDestroyMethod(String destroyMethod) {
         this.destroyMethod = destroyMethod;
+    }
+
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 }
