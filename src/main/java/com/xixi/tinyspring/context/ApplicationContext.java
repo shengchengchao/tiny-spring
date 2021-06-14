@@ -9,4 +9,10 @@ import com.xixi.tinyspring.bean.factory.BeanFactory;
  */
 public interface ApplicationContext extends BeanFactory {
 
+    /**
+     * 手动关闭
+     */
+    void registerShutdownHook();
+
+    void close() throws Exception;
 }

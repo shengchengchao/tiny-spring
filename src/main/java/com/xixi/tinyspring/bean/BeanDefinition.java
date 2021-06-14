@@ -15,6 +15,9 @@ public class BeanDefinition {
 
     private PropertyValues propertyValues = new PropertyValues();
 
+    private String initMethodName;
+
+    private String destroyMethod;
 
     public void setBeanClass(String beanClassName) {
         this.beanClassName = beanClassName;
@@ -54,5 +57,21 @@ public class BeanDefinition {
 
     public void setBean(Object bean) {
         this.bean = bean;
+    }
+
+    public String getInitMethodName() {
+        return initMethodName;
+    }
+
+    public void setInitMethodName(String initMethodName) {
+        this.initMethodName = initMethodName;
+    }
+
+    public String getDestroyMethod() {
+        return destroyMethod;
+    }
+
+    public void setDestroyMethod(String destroyMethod) {
+        this.destroyMethod = destroyMethod;
     }
 }

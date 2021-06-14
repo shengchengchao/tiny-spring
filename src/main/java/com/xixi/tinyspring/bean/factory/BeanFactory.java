@@ -1,6 +1,5 @@
 package com.xixi.tinyspring.bean.factory;
 
-import com.xixi.tinyspring.bean.BeanDefinition;
 
 /**
  * @author shengchengchao
@@ -20,4 +19,5 @@ public interface BeanFactory {
     Object getBean(String name) throws Exception;
 
 
+    
 }

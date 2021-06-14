@@ -1,7 +1,8 @@
 package com.xixi.tinyspring.context;
 
 
-import com.xixi.tinyspring.bean.BeanPostProcessor;
+import com.xixi.tinyspring.bean.PostProcess.BeanFactoryPostProcessor;
+import com.xixi.tinyspring.bean.PostProcess.BeanPostProcessor;
 import com.xixi.tinyspring.bean.factory.AbstractFactory;
 
 import java.util.List;
@@ -21,8 +22,20 @@ public abstract class AbstractApplicationContext implements ApplicationContext  
 
     public void refresh() throws Exception{
         loadBeanDefinitions(abstractBeanFactory);
+        registerBeanFactoryPostProcessors(abstractBeanFactory);
         registerBeanPostProcessors(abstractBeanFactory);
         onRefresh();
+    }
+
+    /**
+     * 提前实例化对应的类
+     * @param abstractBeanFactory
+     */
+    protected  void registerBeanFactoryPostProcessors(AbstractFactory abstractBeanFactory) throws Exception {
+        List<BeanFactoryPostProcessor> beanForType = abstractBeanFactory.getBeanforType(BeanFactoryPostProcessor.class);
+        for (BeanFactoryPostProcessor beanFactoryPostProcessor : beanForType){
+            beanFactoryPostProcessor.postProcessBeanFactory(abstractBeanFactory);
+        }
     }
 
     protected  void onRefresh() throws Exception {
@@ -44,4 +57,21 @@ public abstract class AbstractApplicationContext implements ApplicationContext  
 
 
     protected abstract void loadBeanDefinitions(AbstractFactory beanFactory) throws Exception ;
+
+    @Override
+    public void registerShutdownHook() {
+        Thread shutdownHook = new Thread() {
+            @Override
+            public void run() {
+                close();
+            }
+        };
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
+
+    }
+
+    @Override
+    public void close()  {
+        abstractBeanFactory.destroySingletons();
+    }
 }

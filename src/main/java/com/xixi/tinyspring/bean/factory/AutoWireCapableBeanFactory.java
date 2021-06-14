@@ -1,13 +1,16 @@
 package com.xixi.tinyspring.bean.factory;
 
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.xixi.tinyspring.aop.BeanFactoryAware;
 import com.xixi.tinyspring.bean.BeanDefinition;
-import com.xixi.tinyspring.bean.BeanPostProcessor;
 import com.xixi.tinyspring.bean.BeanReference;
+import com.xixi.tinyspring.bean.InitializingBean;
 import com.xixi.tinyspring.bean.PropertyValue;
+import org.springframework.beans.BeansException;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -28,8 +31,31 @@ public class AutoWireCapableBeanFactory extends AbstractFactory {
         beanDefinition.setBeanClass(beanClassName);
         Object beanInstance = createBeanInstance(beanDefinition);
         beanDefinition.setBean(beanInstance);
+
         addPropertyValue(beanDefinition,beanInstance);
+        // InitializingBean 使用
+        invokeInitMethod(beanDefinition,beanInstance,beanClassName);
         return beanInstance;
+    }
+
+    /**
+     *  添加初始化方法
+     * @param beanDefinition
+     * @param beanInstance
+     * @param beanClassName
+     */
+    private void invokeInitMethod(BeanDefinition beanDefinition, Object beanInstance, String beanClassName) throws Exception {
+          if (beanInstance instanceof InitializingBean){
+              ((InitializingBean) beanInstance).afterPropertiesSet();
+          }
+          if(beanDefinition.getInitMethodName()!=null){
+              String initMethod = beanDefinition.getInitMethodName();
+              Method publicMethod = ClassUtil.getPublicMethod(beanDefinition.getBeanClass(), initMethod);
+              if(publicMethod ==null){
+                  throw new RuntimeException("Could not find an init method named '" + initMethod + "' on bean with name '" + beanClassName + "'");
+              }
+              publicMethod.invoke(beanInstance);
+          }
     }
 
     /**
