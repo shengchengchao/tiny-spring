@@ -41,6 +41,7 @@ public class BeanFactoryTest {
         for (Map.Entry<String, BeanDefinition> beanDefinitionEntry : xmlBeanDefinitionReader.getRegistry().entrySet()){
             beanFactory.registerBean(beanDefinitionEntry.getKey(),beanDefinitionEntry.getValue());
         }
+        // 这里加一个预先处理
         beanFactory.preInstanceBean();
         HelloWorld helloWorld = (HelloWorld) beanFactory.getBean("helloWorld");
         helloWorld.testHello();
